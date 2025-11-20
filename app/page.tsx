@@ -1,19 +1,19 @@
 'use client';
 import { useState } from 'react';
 import NavBar from "@/components/NavBar";
-// import { useMode } from "@/context/ModeContext"; // TEMPORÄR ENTFERNT
 import { Reveal } from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import ServiceAccordion from "@/components/ServiceAccordion";
 import UseCaseGrid from "@/components/UseCaseGrid";
 import TechStack from "@/components/TechStack";
+import BlogSection from "@/components/BlogSection";
 import { motion } from "framer-motion";
 
 // HINWEIS: Da der ModeToggle entfernt wurde, simulieren wir den Zustand hier statisch.
 const useMode = () => ({ isCodeMode: false });
 
 // Definition der Silo Traps inkl. Zitate
-// ANGEPASSTE POSITIONEN: Werte erhöht, damit sie weiter rechts starten (Überlappung nur am Ende)
+// Positionen angepasst: Weiter rechts (left) und etwas tiefer (top) für minimale Überlappung
 const siloTraps = [
   { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '11rem' },
   { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '16rem' },
@@ -39,9 +39,8 @@ const SiloTrapItem = ({ text, quote, left }: { text: string; quote: string; left
 
             {/* Zitat: Animation von unten */}
             <motion.span
-                // SCHRIFTGRÖSSE REDUZIERT: text-2xl (nur ein Tick größer als text-xl)
                 className={`font-serif italic text-2xl absolute z-0 whitespace-nowrap tracking-wide pointer-events-none ${quoteColor}`}
-                style={{ left: left, top: '2px' }} // Leicht nach unten korrigiert für Basislinien-Harmonie
+                style={{ left: left, top: '1.2rem' }}
                 initial={{ y: 15, opacity: 0 }}
                 animate={{
                     y: isHovered ? 0 : 15,
@@ -204,6 +203,7 @@ export default function Home() {
           <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">TECH</div>
           <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">BUSINESS</div>
 
+          {/* ZENTRUM: LOGO (Pulsierend) */}
           <div className="venn-me dark:bg-green-600 dark:shadow-[0_0_30px_rgba(34,197,94,0.4)]">
             <motion.div
                 className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
@@ -228,7 +228,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. SERVICES (HORIZONTAL ACCORDION) */}
+      {/* 6. SERVICES (HORIZONTAL ACCORDION) */}
       <section id="services" className="py-12 md:py-24 bg-white dark:bg-slate-900 transition-colors">
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16">
             <p className="font-mono text-xs uppercase tracking-[0.2em] mb-4 border-l-4 border-ikb dark:border-green-500 pl-4">
@@ -241,7 +241,7 @@ export default function Home() {
         <ServiceAccordion />
       </section>
 
-      {/* 8. PROFILE */}
+      {/* 7. PROFILE */}
       <section id="profile" className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-slate-800/30 border-b-2 border-black dark:border-green-500/30 transition-colors">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
@@ -282,7 +282,10 @@ export default function Home() {
       {/* 8. TECH STACK */}
       <TechStack />
 
-      {/* 9. CONTACT / FOOTER */}
+      {/* 9. BLOG SECTION */}
+      <BlogSection />
+
+      {/* 10. CONTACT / FOOTER */}
       <footer id="contact" className="bg-black dark:bg-slate-950 text-white py-24 px-6 md:px-12 border-t-8 border-ikb dark:border-green-500 transition-colors">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
           <div>
