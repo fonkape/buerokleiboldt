@@ -1,8 +1,58 @@
 'use client';
+import { useState } from 'react';
 import NavBar from "@/components/NavBar";
-import { useMode } from "@/context/ModeContext";
+// import { useMode } from "@/context/ModeContext"; // TEMPORÄR ENTFERNT FÜR SINGLE MODE
 import { Reveal } from "@/components/Reveal";
-import ContactForm from "@/components/ContactForm"; // <--- HIER IST DER NEUE IMPORT
+import ContactForm from "@/components/ContactForm";
+import ServiceAccordion from "@/components/ServiceAccordion";
+import UseCaseGrid from "@/components/UseCaseGrid";
+import { motion } from "framer-motion";
+
+// HINWEIS: Da der ModeToggle entfernt wurde, simulieren wir den Zustand hier statisch als 'false' (Legal Mode).
+// Das verhindert Fehler, falls Komponenten useMode erwarten, und hält den Code sauber für spätere Reaktivierung.
+const useMode = () => ({ isCodeMode: false });
+
+// Definition der Silo Traps inkl. Zitate
+const siloTraps = [
+  { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '12rem' },
+  { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '16rem' },
+  { id: 3, text: "03. Strategie ohne Return.", quote: "BUDGET VERBRANNT", left: '17rem' },
+];
+
+// KOMPONENTE: Silo Trap Item mit Hover-Animation
+const SiloTrapItem = ({ text, quote, left }: { text: string; quote: string; left: string }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const { isCodeMode } = useMode();
+
+    const quoteColor = isCodeMode ? "text-green-500/40" : "text-ikb/50";
+    const primaryColor = isCodeMode ? "text-green-400" : "text-ikb";
+
+    return (
+        <motion.li
+            className="flex flex-col items-start relative cursor-default"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {/* Hauptstatement: Z-Index 10, immer lesbar */}
+            <span className={`${primaryColor} font-mono text-xl mr-4 z-10 transition-colors`}>{text}</span>
+
+            {/* Zitat: Animation mit framer-motion (von unten aufsteigend) */}
+            <motion.span
+                className={`font-serif italic text-5xl absolute z-0 whitespace-nowrap tracking-wide ${quoteColor}`}
+                style={{ left: left }}
+                initial={{ y: 25, opacity: 0.05 }}
+                animate={{
+                    y: isHovered ? 5 : 25,
+                    opacity: isHovered ? 1 : 0.05
+                }}
+                transition={{ duration: 0.3 }}
+            >
+                {quote}
+            </motion.span>
+        </motion.li>
+    );
+};
+
 
 export default function Home() {
   const { isCodeMode } = useMode();
@@ -80,10 +130,18 @@ export default function Home() {
               </article>
             ))}
           </div>
+
+          <div className="mt-20 text-center">
+            <p className="font-mono text-sm uppercase tracking-widest mb-4 text-ikb dark:text-green-400">Aber hier liegt das Problem:</p>
+            <p className="font-serif dark:font-mono text-2xl md:text-3xl italic dark:not-italic max-w-3xl mx-auto">
+              &quot;Die Technik ist bereit. Aber Ihre Abteilungen sprechen nicht dieselbe Sprache.&quot;
+            </p>
+            <div className="h-12 w-[2px] bg-black dark:bg-green-500 mx-auto mt-8"></div>
+          </div>
         </div>
       </section>
 
-      {/* 3. THE CHALLENGE */}
+      {/* 3. THE CHALLENGE (SILO TRAPS) */}
       <section id="challenge" className="border-b-2 border-black dark:border-green-500/30 transition-colors duration-500">
         <div className="grid md:grid-cols-2">
           <div className="p-12 md:p-24 border-r-2 border-black dark:border-green-500/30 flex flex-col justify-center bg-white dark:bg-slate-900 transition-colors">
@@ -93,10 +151,17 @@ export default function Home() {
             <p className="font-mono text-sm leading-relaxed mb-8 text-gray-600 dark:text-gray-400">
               Innovationsprojekte scheitern selten an der Technik. Sie scheitern an der Schnittstelle.
             </p>
-            <ul className="space-y-6 font-serif dark:font-mono text-xl">
-              <li className="flex items-start"><span className="text-ikb dark:text-green-400 font-mono mr-4">01.</span> Legal blockiert (&quot;Zu riskant&quot;).</li>
-              <li className="flex items-start"><span className="text-ikb dark:text-green-400 font-mono mr-4">02.</span> IT baut Features, die illegal sind.</li>
-              <li className="flex items-start"><span className="text-ikb dark:text-green-400 font-mono mr-4">03.</span> Business verfehlt den ROI.</li>
+
+            {/* TRAPS MIT HOVER ANIMATION */}
+            <ul className="space-y-12 font-mono text-xl">
+              {siloTraps.map(trap => (
+                <SiloTrapItem
+                  key={trap.id}
+                  text={trap.text}
+                  quote={trap.quote}
+                  left={trap.left}
+                />
+              ))}
             </ul>
           </div>
 
@@ -126,7 +191,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. THE SOLUTION (VENN) */}
+      {/* 4. THE SOLUTION (VENN DIAGRAM - STATISCH + PULS ZENTRUM) */}
       <section id="solution" className="py-24 px-6 bg-white dark:bg-slate-900 overflow-hidden border-b-2 border-black dark:border-green-500/30 transition-colors duration-500">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="font-serif dark:font-mono text-4xl italic dark:not-italic mb-4">Die Lösung: Symbiose</h2>
@@ -134,112 +199,56 @@ export default function Home() {
         </div>
 
         <div className="venn-container scale-75 md:scale-100 dark:opacity-90">
-          <div className="venn-circle venn-law dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">LAW</div>
-          <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">TECH</div>
-          <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">BUSINESS</div>
+          {/* ÄUSSERE KREISE (STATISCH) */}
+          <div className="venn-circle venn-law dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            LAW
+          </div>
+          <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            TECH
+          </div>
+          <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            BUSINESS
+          </div>
+
+          {/* ZENTRUM: LOGO (Pulsierend) */}
           <div className="venn-me dark:bg-green-600 dark:shadow-[0_0_30px_rgba(34,197,94,0.4)]">
-            <span className="font-serif dark:font-mono text-3xl italic dark:not-italic">Me</span>
-            <span className="font-mono text-[10px] uppercase tracking-widest mt-1">Architect</span>
+            <motion.div
+                className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+             <svg viewBox="0 0 100 100" className='w-12 h-12 relative z-10'>
+                <text x="50" y="48" style={{fontFamily: 'IBM Plex Mono, monospace'}} fontWeight="700" fontSize="38" textAnchor="middle" fill="white" dominantBaseline="central">DK</text>
+                <path d="M28 22 C 18 22, 18 22, 18 35 L 18 42 C 18 48, 12 50, 12 50 C 12 50, 18 52, 18 58 L 18 65 C 18 78, 18 78, 28 78" fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
+                <path d="M72 22 C 82 22, 82 22, 82 35 L 82 42 C 82 48, 88 50, 88 50 C 88 50, 82 52, 82 58 L 82 65 C 82 78, 82 78, 72 78" fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
+            </svg>
           </div>
         </div>
       </section>
 
-      {/* 5. USE CASES */}
+      {/* 5. USE CASES (GRID BREAK INTERACTION) */}
       <section id="cases" className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-slate-800/50 border-b-2 border-black dark:border-green-500/30 transition-colors">
         <div className="max-w-7xl mx-auto">
           <h2 className="font-mono text-sm uppercase tracking-widest mb-12 text-ikb dark:text-green-400">/// Echte Szenarien</h2>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            {[
-                { id: "01", title: "Der Mittelständler & das KI-Tool", p: "Mitarbeiter nutzten ChatGPT für Kundendaten.", l: "Lokale LLM-Instanz (Llama)." },
-                { id: "02", title: "Supply Chain auf der Blockchain", p: "Logistik-Nachweise manipulierbar.", l: "Permissioned Ledger (Hyperledger)." },
-                { id: "03", title: "Das Startup & die MiCA-Lizenz", p: "FinTech wollte tokenisierte Assets ohne Lizenz.", l: "Hybrid-Architektur & Whitelisting." },
-                { id: "04", title: "Maschinenbau & Tokenisierung", p: "Kapital in Maschinen gebunden.", l: "eWpG-konforme Smart Contracts." }
-            ].map((c, i) => (
-                <article key={i} className="bg-white dark:bg-slate-900 border-2 border-black dark:border-green-500/30 p-8 relative group hover:shadow-lg dark:hover:border-green-400 transition-all">
-                    <div className="absolute top-0 right-0 bg-black dark:bg-green-500 text-white dark:text-black px-3 py-1 font-mono text-xs font-bold">CASE {c.id}</div>
-                    <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-6">{c.title}</h3>
-                    <div className="space-y-4 font-mono text-sm">
-                        <p className="dark:text-gray-400"><strong className="uppercase border-b border-black dark:border-green-500 dark:text-white">Problem:</strong> {c.p}</p>
-                        <p className="text-ikb dark:text-green-400"><strong className="uppercase border-b border-ikb dark:border-green-400">Lösung:</strong> {c.l}</p>
-                    </div>
-                </article>
-            ))}
-          </div>
+          {/* DIE NEUE INTERAKTIVE GRID KOMPONENTE */}
+          <UseCaseGrid />
+
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS */}
-      <section id="testimonials" className="py-24 px-6 md:px-12 bg-white dark:bg-slate-900 border-b-2 border-black dark:border-green-500/30 overflow-hidden transition-colors">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-mono text-sm uppercase tracking-widest mb-12 text-center text-ikb dark:text-green-400">/// Was Kunden sagen</h2>
-
-          <div className="relative">
-            <div className="flex gap-8 overflow-x-auto pb-8 snap-x">
-              {[
-                { i: "SM", name: "Sarah Müller", role: "CTO, PropTech Startup", text: "Daniel hat unsere Token-Architektur in 3 Wochen BaFin-konform gemacht." },
-                { i: "TK", name: "Thomas Krause", role: "Head of Legal, Mittelstand AG", text: "Endlich jemand, der unsere Compliance-Anforderungen versteht UND technisch liefert." },
-                { i: "LP", name: "Laura Peters", role: "Founder, HealthTech GmbH", text: "Daniel hat uns gezeigt, wie wir AI DSGVO-konform nutzen können." },
-                { i: "MH", name: "Michael Hoffmann", role: "CFO, Supply Chain Solutions", text: "Der Workshop hat Juristen und IT-Abteilung endlich zusammengebracht." }
-              ].map((t, idx) => (
-                <div key={idx} className="flex-shrink-0 w-[85vw] md:w-[400px] bg-gray-50 dark:bg-slate-800 border-2 border-black dark:border-green-500/30 p-8 snap-center">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-ikb dark:bg-green-600 rounded-full flex items-center justify-center text-white font-mono font-bold text-lg mr-4">{t.i}</div>
-                    <div>
-                      <h4 className="font-serif dark:font-mono font-bold text-lg">{t.name}</h4>
-                      <p className="font-mono text-xs text-gray-500 dark:text-green-400/70">{t.role}</p>
-                    </div>
-                  </div>
-                  <p className="font-mono text-sm leading-relaxed text-gray-700 dark:text-gray-300 italic dark:not-italic">&quot;{t.text}&quot;</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* 7. SERVICES (HORIZONTAL ACCORDION) */}
+      <section id="services" className="py-12 md:py-24 bg-white dark:bg-slate-900 transition-colors">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] mb-4 border-l-4 border-ikb dark:border-green-500 pl-4">
+                /// MEINE KERNDIENSTLEISTUNGEN
+            </p>
+            <h2 className="font-serif dark:font-mono text-5xl md:text-6xl italic dark:not-italic leading-tight">
+                Das Architekten-Toolkit.
+            </h2>
         </div>
-      </section>
-
-      {/* 7. SERVICES */}
-      <section id="services" className="border-b-2 border-black dark:border-green-500/30 bg-white dark:bg-slate-900 transition-colors">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x-2 divide-black dark:divide-green-500/30">
-
-          {/* Service 1 */}
-          <div className="p-12 hover:bg-gray-50 dark:hover:bg-slate-800 transition duration-300 group h-full flex flex-col">
-            <div className="font-mono text-xs mb-8 border border-black dark:border-green-500 inline-block px-3 py-1 bg-white dark:bg-slate-900 dark:text-green-400 group-hover:bg-ikb group-hover:text-white group-hover:border-ikb transition self-start">AUDIT</div>
-            <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-4">Feasibility Check</h3>
-            <p className="font-mono text-sm leading-relaxed text-gray-600 dark:text-gray-400 mb-8 flex-grow">
-              Bevor Sie Budget verbrennen: Ein 48h Review Ihrer Idee. Machbar? Sinnvoll?
-            </p>
-            <ul className="font-mono text-xs space-y-4 border-t-2 border-black dark:border-green-500/30 pt-6 mt-auto">
-              <li className="flex items-center"><i className="fas fa-arrow-right text-ikb dark:text-green-400 mr-3"></i> Go / No-Go Analyse</li>
-            </ul>
-          </div>
-
-          {/* Service 2 (Core) */}
-          <div className="p-12 bg-ikb dark:bg-green-900/20 text-white dark:text-green-100 relative overflow-hidden group h-full flex flex-col border-x-2 border-black dark:border-green-500/30">
-            <div className="absolute top-0 right-0 bg-black dark:bg-green-500 text-white dark:text-black text-[10px] font-mono uppercase px-3 py-1 font-bold">Core</div>
-            <div className="font-mono text-xs mb-8 border border-white dark:border-green-400 inline-block px-3 py-1 self-start">ARCHITECTURE</div>
-            <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-4">Legal Engineering</h3>
-            <p className="font-mono text-sm leading-relaxed opacity-90 mb-8 flex-grow">
-              Ich schreibe User Stories für Compliance und Specs für die Entwickler.
-            </p>
-            <ul className="font-mono text-xs space-y-4 border-t-2 border-white/30 dark:border-green-400/30 pt-6 mt-auto">
-              <li className="flex items-center"><i className="fas fa-check mr-3"></i> Compliance-by-Design</li>
-            </ul>
-          </div>
-
-          {/* Service 3 */}
-          <div className="p-12 hover:bg-gray-50 dark:hover:bg-slate-800 transition duration-300 group h-full flex flex-col">
-            <div className="font-mono text-xs mb-8 border border-black dark:border-green-500 inline-block px-3 py-1 bg-white dark:bg-slate-900 dark:text-green-400 group-hover:bg-ikb group-hover:text-white group-hover:border-ikb transition self-start">WORKSHOP</div>
-            <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-4">The Bridge</h3>
-            <p className="font-mono text-sm leading-relaxed text-gray-600 dark:text-gray-400 mb-8 flex-grow">
-              Ich bringe Ihre Juristen und Entwickler in einen Raum.
-            </p>
-            <ul className="font-mono text-xs space-y-4 border-t-2 border-black dark:border-green-500/30 pt-6 mt-auto">
-              <li className="flex items-center"><i className="fas fa-arrow-right text-ikb dark:text-green-400 mr-3"></i> Vocabulary Alignment</li>
-            </ul>
-          </div>
-
-        </div>
+        <ServiceAccordion />
       </section>
 
       {/* 8. PROFILE */}
@@ -287,7 +296,6 @@ export default function Home() {
             <p className="font-mono text-xs uppercase tracking-widest mb-4 text-ikb dark:text-green-400">/// Let&apos;s start</p>
             <h2 className="font-serif dark:font-mono text-5xl md:text-7xl italic dark:not-italic mb-8">Genug Theorie.</h2>
 
-            {/* DAS NEUE FORMULAR */}
             <ContactForm />
 
           </div>
