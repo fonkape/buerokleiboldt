@@ -216,13 +216,3 @@ export default function BlogSection() {
     </section>
   );
 }
-```
-
-### Was du tun musst:
-
-1.  **Speichern** (`CMD + S`).
-2.  **Deployen**:
-    ```bash
-    git add .
-    git commit -m "Fix scroll issue in blog modal and update links"
-    git push
