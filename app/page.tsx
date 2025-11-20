@@ -6,17 +6,18 @@ import { Reveal } from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import ServiceAccordion from "@/components/ServiceAccordion";
 import UseCaseGrid from "@/components/UseCaseGrid";
-import TechStack from "@/components/TechStack"; // <--- WICHTIG: Der neue Import
+import TechStack from "@/components/TechStack";
 import { motion } from "framer-motion";
 
 // HINWEIS: Da der ModeToggle entfernt wurde, simulieren wir den Zustand hier statisch.
 const useMode = () => ({ isCodeMode: false });
 
 // Definition der Silo Traps inkl. Zitate
+// ANGEPASSTE POSITIONEN: Näher am Text, damit sie nicht rausfliegen
 const siloTraps = [
-  { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '12rem' },
-  { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '16rem' },
-  { id: 3, text: "03. Strategie ohne Return.", quote: "BUDGET VERBRANNT", left: '17rem' },
+  { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '4rem' },
+  { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '6rem' },
+  { id: 3, text: "03. Strategie ohne Return.", quote: "BUDGET VERBRANNT", left: '6rem' },
 ];
 
 // KOMPONENTE: Silo Trap Item mit Hover-Animation
@@ -24,25 +25,29 @@ const SiloTrapItem = ({ text, quote, left }: { text: string; quote: string; left
     const [isHovered, setIsHovered] = useState(false);
     const { isCodeMode } = useMode();
 
-    const quoteColor = isCodeMode ? "text-green-500/40" : "text-ikb/50";
+    const quoteColor = isCodeMode ? "text-green-500/40" : "text-ikb/40"; // Etwas transparenter (/40) für besseren Layering-Effekt
     const primaryColor = isCodeMode ? "text-green-400" : "text-ikb";
 
     return (
         <motion.li
-            className="flex flex-col items-start relative cursor-default"
+            className="flex flex-col items-start relative cursor-default py-2" // Etwas vertikales Padding
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <span className={`${primaryColor} font-mono text-xl mr-4 z-10 transition-colors`}>{text}</span>
+            {/* Hauptstatement */}
+            <span className={`${primaryColor} font-mono text-xl mr-4 z-10 transition-colors relative`}>{text}</span>
+
+            {/* Zitat: Animation von unten */}
             <motion.span
-                className={`font-serif italic text-5xl absolute z-0 whitespace-nowrap tracking-wide ${quoteColor}`}
-                style={{ left: left }}
-                initial={{ y: 25, opacity: 0.05 }}
+                // SCHRIFTGRÖSSE REDUZIERT: von text-5xl auf text-3xl md:text-4xl
+                className={`font-serif italic text-3xl md:text-4xl absolute z-0 whitespace-nowrap tracking-wide pointer-events-none ${quoteColor}`}
+                style={{ left: left, top: '-5px' }} // Leicht nach oben korrigiert für bessere Überlappung
+                initial={{ y: 20, opacity: 0 }}
                 animate={{
-                    y: isHovered ? 5 : 25,
-                    opacity: isHovered ? 1 : 0.05
+                    y: isHovered ? 0 : 20,
+                    opacity: isHovered ? 1 : 0
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
             >
                 {quote}
             </motion.span>
@@ -139,7 +144,8 @@ export default function Home() {
       {/* 3. THE CHALLENGE (SILO TRAPS) */}
       <section id="challenge" className="border-b-2 border-black dark:border-green-500/30 transition-colors duration-500">
         <div className="grid md:grid-cols-2">
-          <div className="p-12 md:p-24 border-r-2 border-black dark:border-green-500/30 flex flex-col justify-center bg-white dark:bg-slate-900 transition-colors">
+          {/* LINKE SPALTE: TRAPS (Mit overflow-hidden FIX) */}
+          <div className="p-12 md:p-24 border-r-2 border-black dark:border-green-500/30 flex flex-col justify-center bg-white dark:bg-slate-900 transition-colors overflow-hidden">
             <h2 className="text-5xl md:text-6xl font-serif dark:font-mono italic dark:not-italic mb-8 leading-tight">
               The Silo Trap.
             </h2>
@@ -147,6 +153,7 @@ export default function Home() {
               Innovationsprojekte scheitern selten an der Technik. Sie scheitern an der Schnittstelle.
             </p>
 
+            {/* TRAPS MIT HOVER ANIMATION */}
             <ul className="space-y-12 font-mono text-xl">
               {siloTraps.map(trap => (
                 <SiloTrapItem
@@ -159,6 +166,7 @@ export default function Home() {
             </ul>
           </div>
 
+          {/* RECHTE SPALTE: KONSEQUENZEN */}
           <div className="flex flex-col font-mono bg-gray-100 dark:bg-slate-950 transition-colors">
             <div className="p-12 border-b-2 border-black dark:border-green-500/30 flex-1 hover:bg-white dark:hover:bg-slate-900 group cursor-default transition-colors flex flex-col justify-center">
               <div className="flex justify-between items-start mb-4">
@@ -193,17 +201,41 @@ export default function Home() {
         </div>
 
         <div className="venn-container scale-75 md:scale-100 dark:opacity-90">
-          <div className="venn-circle venn-law dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">LAW</div>
-          <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">TECH</div>
-          <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">BUSINESS</div>
+          {/* ÄUSSERE KREISE (STATISCH, statischer Anker) */}
+          <div className="venn-circle venn-law dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            LAW
+          </div>
+          <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            TECH
+          </div>
+          <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">
+            BUSINESS
+          </div>
 
+          {/* ZENTRUM: LOGO (Pulsierend) */}
           <div className="venn-me dark:bg-green-600 dark:shadow-[0_0_30px_rgba(34,197,94,0.4)]">
+
+            {/* Pulsierender Hintergrund-Effekt */}
             <motion.div
-                className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
+                className="absolute inset-0 rounded-full"
                 initial={{ scale: 1 }}
                 animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                // Transparenter Rand für den "atmenden" Effekt
+                style={{
+                    backgroundColor: 'rgba(0, 47, 167, 0.1)', // Soft IKB Blau
+                    boxShadow: '0 0 10px rgba(0, 47, 167, 0.4)',
+                    opacity: 0.8
+                }}
+                // Dark Mode Anpassung via className überschreibt style im Dark Mode
+                className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
             />
+
+            {/* Logo SVG (Bleibt statisch und farbig) */}
              <svg viewBox="0 0 100 100" className='w-12 h-12 relative z-10'>
                 <text x="50" y="48" style={{fontFamily: 'IBM Plex Mono, monospace'}} fontWeight="700" fontSize="38" textAnchor="middle" fill="white" dominantBaseline="central">DK</text>
                 <path d="M28 22 C 18 22, 18 22, 18 35 L 18 42 C 18 48, 12 50, 12 50 C 12 50, 18 52, 18 58 L 18 65 C 18 78, 18 78, 28 78" fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
@@ -221,7 +253,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. SERVICES (HORIZONTAL ACCORDION) */}
+      {/* 7. SERVICES (HORIZONTAL ACCORDION) */}
       <section id="services" className="py-12 md:py-24 bg-white dark:bg-slate-900 transition-colors">
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16">
             <p className="font-mono text-xs uppercase tracking-[0.2em] mb-4 border-l-4 border-ikb dark:border-green-500 pl-4">
@@ -234,7 +266,7 @@ export default function Home() {
         <ServiceAccordion />
       </section>
 
-      {/* 7. PROFILE */}
+      {/* 8. PROFILE */}
       <section id="profile" className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-slate-800/30 border-b-2 border-black dark:border-green-500/30 transition-colors">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
@@ -272,7 +304,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. TECH STACK (NEU HINZUGEFÜGT) */}
+      {/* 8. TECH STACK */}
       <TechStack />
 
       {/* 9. CONTACT / FOOTER */}
