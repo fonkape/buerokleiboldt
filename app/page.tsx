@@ -13,10 +13,11 @@ import { motion } from "framer-motion";
 const useMode = () => ({ isCodeMode: false });
 
 // Definition der Silo Traps inkl. Zitate
+// ANGEPASSTE POSITIONEN: Werte erhöht, damit sie weiter rechts starten (Überlappung nur am Ende)
 const siloTraps = [
-  { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '4rem' },
-  { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '6rem' },
-  { id: 3, text: "03. Strategie ohne Return.", quote: "BUDGET VERBRANNT", left: '6rem' },
+  { id: 1, text: "01. Legal blockiert.", quote: "ZU RISIKANT", left: '11rem' },
+  { id: 2, text: "02. Code ohne Compliance.", quote: "ABMAHNUNG GARANTIERT", left: '16rem' },
+  { id: 3, text: "03. Strategie ohne Return.", quote: "BUDGET VERBRANNT", left: '16rem' },
 ];
 
 // KOMPONENTE: Silo Trap Item mit Hover-Animation
@@ -33,13 +34,17 @@ const SiloTrapItem = ({ text, quote, left }: { text: string; quote: string; left
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
+            {/* Hauptstatement */}
             <span className={`${primaryColor} font-mono text-xl mr-4 z-10 transition-colors relative`}>{text}</span>
+
+            {/* Zitat: Animation von unten */}
             <motion.span
-                className={`font-serif italic text-3xl md:text-4xl absolute z-0 whitespace-nowrap tracking-wide pointer-events-none ${quoteColor}`}
-                style={{ left: left, top: '-5px' }}
-                initial={{ y: 20, opacity: 0 }}
+                // SCHRIFTGRÖSSE REDUZIERT: text-2xl (nur ein Tick größer als text-xl)
+                className={`font-serif italic text-2xl absolute z-0 whitespace-nowrap tracking-wide pointer-events-none ${quoteColor}`}
+                style={{ left: left, top: '2px' }} // Leicht nach unten korrigiert für Basislinien-Harmonie
+                initial={{ y: 15, opacity: 0 }}
                 animate={{
-                    y: isHovered ? 0 : 20,
+                    y: isHovered ? 0 : 15,
                     opacity: isHovered ? 1 : 0
                 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
@@ -199,18 +204,13 @@ export default function Home() {
           <div className="venn-circle venn-tech dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">TECH</div>
           <div className="venn-circle venn-biz dark:border-green-500 dark:text-green-400 dark:bg-slate-900/50">BUSINESS</div>
 
-          {/* ZENTRUM: LOGO (Pulsierend) */}
           <div className="venn-me dark:bg-green-600 dark:shadow-[0_0_30px_rgba(34,197,94,0.4)]">
-
-            {/* Pulsierender Hintergrund-Effekt */}
             <motion.div
                 className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
                 initial={{ scale: 1 }}
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
-
-            {/* Logo SVG (Bleibt statisch und farbig) */}
              <svg viewBox="0 0 100 100" className='w-12 h-12 relative z-10'>
                 <text x="50" y="48" style={{fontFamily: 'IBM Plex Mono, monospace'}} fontWeight="700" fontSize="38" textAnchor="middle" fill="white" dominantBaseline="central">DK</text>
                 <path d="M28 22 C 18 22, 18 22, 18 35 L 18 42 C 18 48, 12 50, 12 50 C 12 50, 18 52, 18 58 L 18 65 C 18 78, 18 78, 28 78" fill="none" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" stroke="white"/>
