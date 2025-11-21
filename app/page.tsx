@@ -17,30 +17,38 @@ const trapLayouts = [
   { left: '16rem' }
 ];
 
-// NEU: Glitch Effekt Komponente
+// GLITCH COMPONENT (V2: Größer & Animiert)
 const GlitchWord = ({ text }: { text: string }) => {
     const { isCodeMode } = useMode();
-    // Farben für den Glitch: Helleres Blau (Legal) oder Neon-Grün (Code)
     const glitchColor = isCodeMode ? "text-green-300" : "text-blue-400";
     const baseColor = isCodeMode ? "text-green-400" : "text-ikb";
+    const bgClass = isCodeMode ? "bg-slate-900" : "bg-white";
 
-    // Hintergrund muss passen, um den unteren Text zu verdecken (Tricky bei Text, wir nutzen Transparenz-Layering)
-    // Wir nutzen clip-path für das obere Drittel
     return (
         <span className="relative inline-block">
-            {/* Das Basis-Wort */}
+            {/* Basis-Wort */}
             <span className={`italic transition-colors ${baseColor} ${isCodeMode ? 'not-italic' : ''}`}>
                 {text}
             </span>
 
-            {/* Der Glitch-Layer (Oberes Drittel, leicht verschoben) */}
-            <span
-                className={`absolute top-0 left-[2px] h-[45%] w-full overflow-hidden pointer-events-none italic ${glitchColor} ${isCodeMode ? 'not-italic' : ''}`}
+            {/* Glitch-Layer: Nimmt jetzt 65% der Höhe ein und zittert */}
+            <motion.span
+                className={`absolute top-0 left-[1px] h-[65%] w-full overflow-hidden pointer-events-none italic ${glitchColor} ${bgClass} ${isCodeMode ? 'not-italic' : ''}`}
                 aria-hidden="true"
-                style={{ clipPath: 'inset(0 0 40% 0)' }} // Schneidet unten ab
+                animate={{
+                    x: [0, -2, 2, -1, 0], // Horizontales Zittern
+                    y: [0, 1, -1, 0],    // Vertikales Zittern
+                }}
+                transition={{
+                    duration: 2.5,       // Alle 2.5 Sekunden
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    times: [0, 0.05, 0.1, 0.15, 1], // Passiert nur im ersten Augenblick des Loops (Blitzartig)
+                    ease: "easeInOut"
+                }}
             >
                 {text}
-            </span>
+            </motion.span>
         </span>
     );
 };
@@ -99,7 +107,6 @@ export default function Home() {
               {t.hero.titlePart1}
             </Reveal>
 
-            {/* HIER IST DER NEUE GLITCH EFFEKT */}
             <Reveal delay={0.4}>
                <div className="flex flex-wrap gap-x-4 md:gap-x-6 items-baseline">
                   <GlitchWord text="AI" />
@@ -112,7 +119,6 @@ export default function Home() {
             <div className="mt-4"></div>
 
             <Reveal delay={0.6}>
-              {/* FIX: pb-2 und leading-tight verhindern, dass das 'g' abgeschnitten wird */}
               <span className="text-4xl md:text-6xl block opacity-80 pb-2 leading-tight pt-2">
                  {t.hero.subtitle}
               </span>
@@ -233,10 +239,10 @@ export default function Home() {
 
           <div className="venn-me dark:bg-green-600 dark:shadow-[0_0_30px_rgba(34,197,94,0.4)]">
             <motion.div
+                className={`absolute inset-0 rounded-full ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
                 initial={{ scale: 1 }}
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className={`absolute inset-0 rounded-full opacity-80 ${isCodeMode ? 'bg-green-500/10 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-ikb/10 shadow-[0_0_10px_rgba(0,47,167,0.4)]'}`}
             />
              <svg viewBox="0 0 100 100" className='w-12 h-12 relative z-10'>
                 <text x="50" y="48" style={{fontFamily: 'IBM Plex Mono, monospace'}} fontWeight="700" fontSize="38" textAnchor="middle" fill="white" dominantBaseline="central">DK</text>
@@ -268,15 +274,18 @@ export default function Home() {
         <ServiceAccordion />
       </section>
 
-      {/* 7. PROFILE */}
+      {/* 7. PROFILE - UPDATE: SLOGAN INTEGRIERT */}
       <section id="profile" className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-slate-800/30 border-b-2 border-black dark:border-green-500/30 transition-colors">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-7 order-2 md:order-1">
               <p className="font-mono text-xs uppercase tracking-[0.2em] mb-6 text-ikb dark:text-green-400">{t.profile.subtitle}</p>
+
+              {/* HIER IST DER NEUE CLAIM ALS HEADLINE */}
               <h2 className="font-serif dark:font-mono text-4xl md:text-5xl italic dark:not-italic mb-8 leading-tight">
-                &quot;{t.profile.title1}<br/>{t.profile.title2}<br/>{t.profile.title3}&quot;
+                Legal Mind.<br/>Tech Stack.<br/>The Translator.
               </h2>
+
               <div className="space-y-6 font-mono text-sm leading-relaxed text-gray-700 dark:text-gray-300 border-l-2 border-black dark:border-green-500 pl-6">
                 <p>{t.profile.text1}</p>
                 <p>{t.profile.text2}</p>
