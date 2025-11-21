@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion'; // <--- 'Variants' importiert
 import { useMode } from '@/context/ModeContext';
 
 export default function BlueprintSystem({ activeId }: { activeId: number | null }) {
@@ -12,7 +12,8 @@ export default function BlueprintSystem({ activeId }: { activeId: number | null 
     scan: isCodeMode ? "rgba(34, 197, 94, 0.1)" : "rgba(0, 47, 167, 0.1)"
   };
 
-  const draw = {
+  // FIX: Expliziter Typ 'Variants'
+  const draw: Variants = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: {
       pathLength: 1,
@@ -68,7 +69,6 @@ export default function BlueprintSystem({ activeId }: { activeId: number | null 
                 transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* FIX: Verwendung des nativen SVG-Elements <animateMotion> ohne 'motion.' Präfix */}
             {activeId === 3 && (
                 <>
                     <motion.circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
