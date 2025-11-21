@@ -17,7 +17,7 @@ const trapLayouts = [
   { left: '16rem' }
 ];
 
-// GLITCH COMPONENT (V2: Größer & Animiert)
+// GLITCH COMPONENT (V2: Seismic & Tall)
 const GlitchWord = ({ text }: { text: string }) => {
     const { isCodeMode } = useMode();
     const glitchColor = isCodeMode ? "text-green-300" : "text-blue-400";
@@ -25,26 +25,31 @@ const GlitchWord = ({ text }: { text: string }) => {
     const bgClass = isCodeMode ? "bg-slate-900" : "bg-white";
 
     return (
-        <span className="relative inline-block">
+        <span className="relative inline-block group">
             {/* Basis-Wort */}
             <span className={`italic transition-colors ${baseColor} ${isCodeMode ? 'not-italic' : ''}`}>
                 {text}
             </span>
 
-            {/* Glitch-Layer: Nimmt jetzt 65% der Höhe ein und zittert */}
+            {/* Der Glitch-Layer: 65% Höhe, Zitter-Animation */}
             <motion.span
-                className={`absolute top-0 left-[1px] h-[65%] w-full overflow-hidden pointer-events-none italic ${glitchColor} ${bgClass} ${isCodeMode ? 'not-italic' : ''}`}
+                className={`absolute top-0 left-0 h-[65%] w-full overflow-hidden pointer-events-none italic ${glitchColor} ${bgClass} ${isCodeMode ? 'not-italic' : ''}`}
                 aria-hidden="true"
+                // "Seismic" Animation: Zufälliges kurzes Zittern
                 animate={{
-                    x: [0, -2, 2, -1, 0], // Horizontales Zittern
-                    y: [0, 1, -1, 0],    // Vertikales Zittern
+                    x: [0, -2, 2, -1, 0],
+                    y: [0, 1, -1, 0],
+                    opacity: [1, 0.8, 1]
                 }}
                 transition={{
-                    duration: 2.5,       // Alle 2.5 Sekunden
+                    duration: 0.2,          // Sehr schnelles Zittern
                     repeat: Infinity,
-                    repeatType: "loop",
-                    times: [0, 0.05, 0.1, 0.15, 1], // Passiert nur im ersten Augenblick des Loops (Blitzartig)
-                    ease: "easeInOut"
+                    repeatDelay: 3 + Math.random() * 2, // Zufällige Pause zwischen 3-5 Sekunden
+                    ease: "linear"
+                }}
+                style={{
+                    clipPath: 'inset(0 0 5% 0)', // Schneidet unten ab
+                    transform: 'translateX(2px)' // Grundversatz
                 }}
             >
                 {text}
@@ -107,6 +112,7 @@ export default function Home() {
               {t.hero.titlePart1}
             </Reveal>
 
+            {/* GLITCH EFFEKT */}
             <Reveal delay={0.4}>
                <div className="flex flex-wrap gap-x-4 md:gap-x-6 items-baseline">
                   <GlitchWord text="AI" />
@@ -119,6 +125,7 @@ export default function Home() {
             <div className="mt-4"></div>
 
             <Reveal delay={0.6}>
+              {/* TYPO FIX: pb-2 und leading-tight */}
               <span className="text-4xl md:text-6xl block opacity-80 pb-2 leading-tight pt-2">
                  {t.hero.subtitle}
               </span>
@@ -274,7 +281,7 @@ export default function Home() {
         <ServiceAccordion />
       </section>
 
-      {/* 7. PROFILE - UPDATE: SLOGAN INTEGRIERT */}
+      {/* 7. PROFILE */}
       <section id="profile" className="py-24 px-6 md:px-12 bg-gray-50 dark:bg-slate-800/30 border-b-2 border-black dark:border-green-500/30 transition-colors">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 items-center">
