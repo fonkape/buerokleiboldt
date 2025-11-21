@@ -17,38 +17,44 @@ const trapLayouts = [
   { left: '16rem' }
 ];
 
-// GLITCH COMPONENT (V2: Seismic & Tall)
+// GLITCH COMPONENT (V3: Seismic & Tall)
 const GlitchWord = ({ text }: { text: string }) => {
     const { isCodeMode } = useMode();
+
+    // Farben
     const glitchColor = isCodeMode ? "text-green-300" : "text-blue-400";
     const baseColor = isCodeMode ? "text-green-400" : "text-ikb";
     const bgClass = isCodeMode ? "bg-slate-900" : "bg-white";
 
+    // WICHTIG: Font-Style explizit machen, damit Layer deckungsgleich sind
+    const fontStyle = isCodeMode ? "font-mono not-italic" : "font-serif italic";
+
     return (
         <span className="relative inline-block group">
             {/* Basis-Wort */}
-            <span className={`italic transition-colors ${baseColor} ${isCodeMode ? 'not-italic' : ''}`}>
+            <span className={`transition-colors ${baseColor} ${fontStyle}`}>
                 {text}
             </span>
 
-            {/* Der Glitch-Layer: 65% Höhe, Zitter-Animation */}
+            {/* Der Glitch-Layer: 85% Höhe, Zitter-Animation */}
             <motion.span
-                className={`absolute top-0 left-0 h-[65%] w-full overflow-hidden pointer-events-none italic ${glitchColor} ${bgClass} ${isCodeMode ? 'not-italic' : ''}`}
+                className={`absolute top-0 left-0 w-full overflow-hidden pointer-events-none ${glitchColor} ${bgClass} ${fontStyle}`}
                 aria-hidden="true"
                 // "Seismic" Animation: Zufälliges kurzes Zittern
                 animate={{
-                    x: [0, -2, 2, -1, 0],
-                    y: [0, 1, -1, 0],
-                    opacity: [1, 0.8, 1]
+                    x: [0, -1, 1, -0.5, 0],
+                    y: [0, 0.5, -0.5, 0],
+                    opacity: [1, 0.9, 1]
                 }}
                 transition={{
-                    duration: 0.2,          // Sehr schnelles Zittern
+                    duration: 0.15,          // Sehr schnelles Zittern (Vibration)
                     repeat: Infinity,
-                    repeatDelay: 3 + Math.random() * 2, // Zufällige Pause zwischen 3-5 Sekunden
+                    repeatDelay: 2 + Math.random() * 3, // Zufällige Pause
                     ease: "linear"
                 }}
                 style={{
-                    clipPath: 'inset(0 0 5% 0)', // Schneidet unten ab
+                    height: '85%', // Mehr vertikaler Raum (85%)
+                    clipPath: 'inset(0 0 15% 0)', // Schneidet nur unten 15% ab
                     transform: 'translateX(2px)' // Grundversatz
                 }}
             >
@@ -114,7 +120,7 @@ export default function Home() {
 
             {/* GLITCH EFFEKT */}
             <Reveal delay={0.4}>
-               <div className="flex flex-wrap gap-x-4 md:gap-x-6 items-baseline">
+               <div className="flex flex-wrap gap-x-4 md:gap-x-6 items-baseline pt-2">
                   <GlitchWord text="AI" />
                   <span className="opacity-50 italic dark:not-italic">/</span>
                   <GlitchWord text="Blockchain" />
@@ -287,12 +293,9 @@ export default function Home() {
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-7 order-2 md:order-1">
               <p className="font-mono text-xs uppercase tracking-[0.2em] mb-6 text-ikb dark:text-green-400">{t.profile.subtitle}</p>
-
-              {/* HIER IST DER NEUE CLAIM ALS HEADLINE */}
               <h2 className="font-serif dark:font-mono text-4xl md:text-5xl italic dark:not-italic mb-8 leading-tight">
                 Legal Mind.<br/>Tech Stack.<br/>The Translator.
               </h2>
-
               <div className="space-y-6 font-mono text-sm leading-relaxed text-gray-700 dark:text-gray-300 border-l-2 border-black dark:border-green-500 pl-6">
                 <p>{t.profile.text1}</p>
                 <p>{t.profile.text2}</p>

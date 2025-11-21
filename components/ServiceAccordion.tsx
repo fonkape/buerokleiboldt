@@ -25,11 +25,11 @@ export default function ServiceAccordion() {
     return id === openId ? '70%' : '15%';
   };
 
-  // Statische Untertitel (die sind international verständlich oder könnten auch ins Dict)
+  // Statische Untertitel
   const subtitles = ["AUDIT", "ARCHITECTURE", "WORKSHOP"];
 
   return (
-    <div className="flex w-full divide-x-2 divide-black dark:divide-green-500/30 overflow-hidden min-h-[500px]">
+    <div className="flex w-full divide-x-2 divide-black dark:divide-green-500/30 overflow-hidden min-h-[500px] border-y-2 border-black dark:border-green-500/30">
       {serviceData.map((item, index) => {
         // Wir nutzen den Index (0, 1, 2) um eine ID zu simulieren (1, 2, 3)
         const id = index + 1;
@@ -39,7 +39,7 @@ export default function ServiceAccordion() {
         // Das mittlere Element (Index 1) ist unser "Core" Service (Legal Engineering)
         const isCore = index === 1;
 
-        // Styling Logik
+        // Styling Logik: Hintergrundfarbe nur für Core
         const itemBgClass = isCore
             ? primaryColorClass
             : "bg-white dark:bg-slate-900";
@@ -47,7 +47,7 @@ export default function ServiceAccordion() {
         const currentHoverClass = isCore ? hoverColorClass : "";
         const width = getWidth(id);
 
-        // Wir mappen die Punkte aus dem Wörterbuch-Objekt in eine saubere Struktur für die Anzeige
+        // Mapping der Punkte
         const sections = [
             { title: item.pointsTitle1, points: item.points1 },
             { title: item.pointsTitle2, points: item.points2 }
@@ -102,7 +102,7 @@ export default function ServiceAccordion() {
                     {item.content}
                   </p>
 
-                  {/* Unterpunkte (Kernleistung & Methodik) */}
+                  {/* Unterpunkte */}
                   {sections.map((section, idx) => (
                     <div key={idx} className="mb-6">
                         <h4 className={`font-serif dark:font-mono text-xl italic dark:not-italic mb-3 ${isCore ? "text-white" : "text-ikb dark:text-green-400"}`}>
