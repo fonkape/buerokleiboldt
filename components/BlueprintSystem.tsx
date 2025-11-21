@@ -68,15 +68,15 @@ export default function BlueprintSystem({ activeId }: { activeId: number | null 
                 transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* FIX: Standard SVG animateMotion statt Framer Motion Komponente für diesen speziellen Fall */}
+            {/* FIX: Verwendung des nativen SVG-Elements <animateMotion> ohne 'motion.' Präfix */}
             {activeId === 3 && (
                 <>
-                    <circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
+                    <motion.circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
                         <animateMotion path="M310 100 L 490 100" dur="1.5s" repeatCount="indefinite" />
-                    </circle>
-                    <circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
+                    </motion.circle>
+                    <motion.circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
                         <animateMotion path="M490 100 L 310 100" dur="1.5s" repeatCount="indefinite" begin="0.75s" />
-                    </circle>
+                    </motion.circle>
                 </>
             )}
         </motion.g>
