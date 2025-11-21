@@ -5,102 +5,180 @@ import { useMode } from '@/context/ModeContext';
 export default function BlueprintSystem({ activeId }: { activeId: number | null }) {
   const { isCodeMode } = useMode();
 
-  // Farben definieren (Legal: IKB Blau / Code: Hacker Grün)
-  const inactiveColor = isCodeMode ? "#1e293b" : "#e2e8f0"; // Dunkelgrau / Hellgrau
-  const activeColor = isCodeMode ? "#22c55e" : "#002FA7";   // Grün / IKB
-  const glowColor = isCodeMode ? "rgba(34, 197, 94, 0.5)" : "rgba(0, 47, 167, 0.3)";
+  // Farb-Logik: "Legal" = IKB Blau, "Code" = Matrix Grün
+  // Wir definieren hier HEX und RGBA für Effekte
+  const c = {
+    base: isCodeMode ? "#1e293b" : "#cbd5e1",     // Inaktives Grau
+    active: isCodeMode ? "#22c55e" : "#002FA7",   // Hauptfarbe
+    glow: isCodeMode ? "rgba(34, 197, 94, 0.6)" : "rgba(0, 47, 167, 0.5)", // Leuchten
+    scan: isCodeMode ? "rgba(34, 197, 94, 0.1)" : "rgba(0, 47, 167, 0.1)"  // Scanner Fläche
+  };
 
-  // Animationsvarianten für die aktiven Teile
-  const activeVariant = {
-    initial: { stroke: inactiveColor, fill: "transparent", filter: "none" },
-    active: {
-      stroke: activeColor,
-      filter: `drop-shadow(0 0 8px ${glowColor})`,
-      transition: { duration: 0.5 }
+  // Animations-Varianten
+  const draw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: {
+      pathLength: 1,
+      opacity: 1,
+      transition: {
+        pathLength: { type: "spring", duration: 1.5, bounce: 0 },
+        opacity: { duration: 0.01 }
+      }
     }
   };
 
-  return (
-    <div className="w-full h-64 md:h-80 flex justify-center items-center mb-12 relative overflow-hidden">
+  const pulse = {
+    scale: [1, 1.05, 1],
+    opacity: [0.7, 1, 0.7],
+    transition: { duration: 2, repeat: Infinity }
+  };
 
-      {/* Hintergrund-Grid für den Blueprint-Look */}
-      <div className="absolute inset-0 pointer-events-none opacity-20"
-           style={{ backgroundImage: `radial-gradient(${inactiveColor} 1px, transparent 1px)`, backgroundSize: '20px 20px' }}>
+  return (
+    <div className="w-full h-72 md:h-96 flex justify-center items-center mb-12 relative overflow-hidden border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-slate-900/50 rounded-xl backdrop-blur-sm">
+
+      {/* HINTERGRUND: Bewegtes Gitter (Parallax Illusion) */}
+      <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+        <motion.div
+            animate={{ backgroundPosition: ["0px 0px", "20px 20px"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="w-[200%] h-[200%] absolute top-[-50%] left-[-50%]"
+            style={{
+                backgroundImage: `linear-gradient(${c.base} 1px, transparent 1px), linear-gradient(90deg, ${c.base} 1px, transparent 1px)`,
+                backgroundSize: '40px 40px'
+            }}
+        />
       </div>
 
-      <svg width="100%" height="100%" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-4xl">
+      <svg width="100%" height="100%" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-5xl relative z-10">
 
-        {/* --- ID 3: THE BRIDGE (WORKSHOP) - Oben / Verbindend --- */}
+        {/* === ID 3: THE BRIDGE (WORKSHOP) - OBEN === */}
         <motion.g
-            variants={activeVariant}
-            initial="initial"
-            animate={activeId === 3 ? "active" : "initial"}
+            initial="hidden"
+            animate={activeId === 3 ? "visible" : "hidden"}
+            style={{ opacity: activeId === 3 || activeId === null ? 1 : 0.3 }}
         >
-            {/* Linker Kopf/Bereich */}
-            <path d="M250 100 A 40 40 0 1 0 250 180 A 40 40 0 1 0 250 100" strokeWidth="2"/>
-            {/* Rechter Kopf/Bereich */}
-            <path d="M550 100 A 40 40 0 1 0 550 180 A 40 40 0 1 0 550 100" strokeWidth="2"/>
-            {/* Die Brücke (Verbindungslinie) */}
-            <path d="M290 140 L 510 140" strokeWidth="4" strokeDasharray="8 8"/>
-            {/* Pfeile auf der Brücke */}
-            <path d="M390 130 L 410 140 L 390 150" strokeWidth="2"/>
+            {/* Linker Node (Legal) */}
+            <circle cx="280" cy="100" r="30" stroke={activeId === 3 ? c.active : c.base} strokeWidth="2"/>
+            <text x="280" y="105" textAnchor="middle" fill={activeId === 3 ? c.active : c.base} fontSize="10" fontFamily="monospace">LAW</text>
+
+            {/* Rechter Node (Tech) */}
+            <circle cx="520" cy="100" r="30" stroke={activeId === 3 ? c.active : c.base} strokeWidth="2"/>
+            <text x="520" y="105" textAnchor="middle" fill={activeId === 3 ? c.active : c.base} fontSize="10" fontFamily="monospace">CODE</text>
+
+            {/* Die Datenleitung (Pulsierend wenn aktiv) */}
+            <motion.path
+                d="M310 100 L 490 100"
+                stroke={activeId === 3 ? c.active : c.base}
+                strokeWidth="2"
+                strokeDasharray="5 5"
+                animate={activeId === 3 ? { strokeDashoffset: [0, -20] } : {}}
+                transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
+            />
+
+            {/* "Pakete" die über die Leitung flitzen (Nur wenn aktiv) */}
+            {activeId === 3 && (
+                <>
+                    <motion.circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
+                        <motion.animateMotion path="M310 100 L 490 100" dur="1.5s" repeatCount="indefinite" />
+                    </motion.circle>
+                    <motion.circle r="4" fill={c.active} filter={`drop-shadow(0 0 8px ${c.active})`}>
+                        <motion.animateMotion path="M490 100 L 310 100" dur="1.5s" repeatCount="indefinite" begin="0.75s" />
+                    </motion.circle>
+                </>
+            )}
         </motion.g>
 
-        {/* --- ID 2: LEGAL ENGINEERING (ARCHITECTURE) - Mitte / Struktur --- */}
+
+        {/* === ID 2: LEGAL ENGINEERING (ARCHITECTURE) - MITTE === */}
         <motion.g
-            variants={activeVariant}
-            initial="initial"
-            animate={activeId === 2 ? "active" : "initial"}
+            initial="hidden"
+            animate={activeId === 2 ? "visible" : "hidden"}
+            style={{ opacity: activeId === 2 || activeId === null ? 1 : 0.3 }}
         >
-            {/* Die Säulen */}
-            <rect x="360" y="180" width="20" height="140" strokeWidth="3"/>
-            <rect x="420" y="180" width="20" height="140" strokeWidth="3"/>
+            {/* Blaupause zeichnet sich selbst */}
+            <motion.rect variants={draw} x="350" y="160" width="100" height="120" stroke={activeId === 2 ? c.active : c.base} strokeWidth="2" rx="4" />
 
-            {/* Das Dach / Der Träger */}
-            <rect x="340" y="160" width="120" height="20" strokeWidth="3"/>
+            {/* Innere Struktur (Code Zeilen) */}
+            <motion.line variants={draw} x1="360" y1="180" x2="400" y2="180" stroke={activeId === 2 ? c.active : c.base} strokeWidth="2" />
+            <motion.line variants={draw} x1="360" y1="200" x2="420" y2="200" stroke={activeId === 2 ? c.active : c.base} strokeWidth="2" />
+            <motion.line variants={draw} x1="360" y1="220" x2="390" y2="220" stroke={activeId === 2 ? c.active : c.base} strokeWidth="2" />
 
-            {/* Code-Details im Träger */}
-            <path d="M350 170 L 360 170" strokeWidth="2"/>
-            <path d="M370 170 L 430 170" strokeWidth="2"/>
-            <path d="M440 170 L 450 170" strokeWidth="2"/>
+            {/* Connection Nodes (Pulsierend) */}
+            <motion.circle cx="350" cy="200" r="4" fill={activeId === 2 ? c.active : c.base} animate={activeId === 2 ? pulse : {}} />
+            <motion.circle cx="450" cy="240" r="4" fill={activeId === 2 ? c.active : c.base} animate={activeId === 2 ? pulse : {}} />
+
+            {/* Floating "Compliance" Badge */}
+            {activeId === 2 && (
+                <motion.g
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    <rect x="460" y="170" width="80" height="24" rx="2" fill={c.active} />
+                    <text x="500" y="186" textAnchor="middle" fill="white" fontSize="10" fontFamily="monospace" fontWeight="bold">COMPLIANT</text>
+                    <line x1="450" y1="182" x2="460" y2="182" stroke={c.active} strokeWidth="1"/>
+                </motion.g>
+            )}
         </motion.g>
 
-        {/* --- ID 1: FEASIBILITY CHECK (AUDIT) - Unten / Fundament --- */}
-        <motion.g
-            variants={activeVariant}
-            initial="initial"
-            animate={activeId === 1 ? "active" : "initial"}
-        >
-            {/* Das Fundament */}
-            <rect x="200" y="320" width="400" height="40" strokeWidth="3"/>
-            {/* Schraffur im Fundament */}
-            <path d="M220 320 L 200 340" strokeWidth="1"/>
-            <path d="M260 320 L 220 360" strokeWidth="1"/>
-            <path d="M300 320 L 260 360" strokeWidth="1"/>
-            <path d="M340 320 L 300 360" strokeWidth="1"/>
-            <path d="M380 320 L 340 360" strokeWidth="1"/>
-            <path d="M420 320 L 380 360" strokeWidth="1"/>
-            <path d="M460 320 L 420 360" strokeWidth="1"/>
-            <path d="M500 320 L 460 360" strokeWidth="1"/>
-            <path d="M540 320 L 500 360" strokeWidth="1"/>
-            <path d="M580 320 L 540 360" strokeWidth="1"/>
 
-            {/* Die Lupe (Scan) */}
-            <circle cx="620" cy="300" r="30" strokeWidth="3"/>
-            <line x1="645" y1="320" x2="665" y2="340" strokeWidth="6"/>
+        {/* === ID 1: FEASIBILITY CHECK (AUDIT) - UNTEN === */}
+        <motion.g
+            initial="hidden"
+            animate={activeId === 1 ? "visible" : "hidden"}
+            style={{ opacity: activeId === 1 || activeId === null ? 1 : 0.3 }}
+        >
+            {/* Basis Plattform */}
+            <motion.path variants={draw} d="M200 340 L 600 340 L 580 380 L 220 380 Z" stroke={activeId === 1 ? c.active : c.base} strokeWidth="2" />
+
+            {/* Raster auf der Plattform */}
+            <path d="M300 340 L 310 380" stroke={activeId === 1 ? c.active : c.base} strokeWidth="1" opacity="0.5"/>
+            <path d="M400 340 L 400 380" stroke={activeId === 1 ? c.active : c.base} strokeWidth="1" opacity="0.5"/>
+            <path d="M500 340 L 490 380" stroke={activeId === 1 ? c.active : c.base} strokeWidth="1" opacity="0.5"/>
+
+            {/* Der Scanner-Laser (Bewegt sich hin und her) */}
+            {activeId === 1 && (
+                <>
+                    <motion.rect
+                        x="200" y="320" width="40" height="60"
+                        fill="url(#scanGradient)"
+                        animate={{ x: [0, 360, 0] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                        style={{ opacity: 0.5 }}
+                    />
+                    <motion.line
+                        x1="240" y1="320" x2="240" y2="380"
+                        stroke={c.active}
+                        strokeWidth="2"
+                        animate={{ x: [0, 360, 0] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                        filter={`drop-shadow(0 0 5px ${c.active})`}
+                    />
+                </>
+            )}
+
+            {/* Definition für den Scanner-Verlauf */}
+            <defs>
+                <linearGradient id="scanGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor={c.active} stopOpacity="0" />
+                    <stop offset="100%" stopColor={c.active} stopOpacity="0.3" />
+                </linearGradient>
+            </defs>
         </motion.g>
 
-        {/* Verbindungslinien (Statisch, immer sichtbar aber dezent) */}
-        <line x1="400" y1="320" x2="400" y2="180" stroke={inactiveColor} strokeWidth="1" strokeDasharray="4 4" opacity="0.5"/>
+        {/* VERBINDUNGSLINIEN (Vertical Backbone) */}
+        <motion.line x1="400" y1="340" x2="400" y2="280" stroke={c.base} strokeWidth="1" strokeDasharray="2 2" />
+        <motion.line x1="400" y1="160" x2="400" y2="100" stroke={c.base} strokeWidth="1" strokeDasharray="2 2" />
 
       </svg>
 
-      {/* Status Label unten */}
-      <div className="absolute bottom-4 left-0 right-0 text-center font-mono text-xs text-gray-400 uppercase tracking-widest">
-        {activeId === 1 && "SYSTEM STATUS: AUDITING FOUNDATION"}
-        {activeId === 2 && "SYSTEM STATUS: BUILDING ARCHITECTURE"}
-        {activeId === 3 && "SYSTEM STATUS: BRIDGING SILOS"}
-        {activeId === null && "SYSTEM STATUS: IDLE"}
+      {/* STATUS DISPLAY (Wie ein HUD) */}
+      <div className="absolute bottom-4 left-4 font-mono text-[10px] text-gray-400 flex flex-col gap-1">
+         <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${activeId !== null ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+            <span>SYSTEM_STATUS: {activeId ? 'ACTIVE_SCAN' : 'STANDBY'}</span>
+         </div>
+         <div>MODULE: {activeId === 1 ? 'AUDIT_CORE' : activeId === 2 ? 'ARCH_BUILDER' : activeId === 3 ? 'BRIDGE_LINK' : 'WAITING'}</div>
       </div>
     </div>
   );
