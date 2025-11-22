@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, JetBrains_Mono, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
-import { ModeProvider } from "@/context/ModeContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import SmoothScroll from "@/components/SmoothScroll";
 
 // Fonts
@@ -19,10 +19,10 @@ const jetbrains = JetBrains_Mono({
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
-    subsets: ["latin"],
-    weight: ['400', '600', '700'],
-    variable: "--font-ibm-plex-mono",
-    display: "swap",
+  subsets: ["latin"],
+  weight: ['400', '600', '700'],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
 });
 
 // FAVICON V2: "The Brackets Only"
@@ -48,11 +48,11 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
       <body className={`${playfair.variable} ${jetbrains.variable} ${ibmPlexMono.variable} bg-white dark:bg-slate-900 dark:text-gray-100 text-black font-serif antialiased transition-colors duration-500`}>
-        <ModeProvider>
+        <ThemeProvider>
           <SmoothScroll>
             {children}
           </SmoothScroll>
-        </ModeProvider>
+        </ThemeProvider>
 
         <Script id="json-ld" type="application/ld+json" dangerouslySetInnerHTML={{
           __html: JSON.stringify({

@@ -1,38 +1,27 @@
 'use client';
-import { useMode } from '@/context/ModeContext';
-import { motion } from 'framer-motion';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function LanguageSwitch() {
-  const { language, setLanguage } = useMode();
+  const { language, setLanguage, theme } = useTheme();
+
+  const isOrganic = theme === 'organic';
+  const activeClass = isOrganic ? "font-bold text-[#1A1A1A]" : "font-bold text-black dark:text-white";
+  const inactiveClass = isOrganic ? "text-[#1A1A1A]/40 hover:text-[#1A1A1A]" : "text-gray-400 hover:text-black dark:hover:text-white";
 
   return (
-    <div className="flex items-center gap-2 font-mono text-xs border border-black dark:border-green-500 rounded-full p-1 bg-white dark:bg-slate-900">
+    <div className="flex gap-2 font-mono text-sm">
       <button
         onClick={() => setLanguage('de')}
-        className={`px-3 py-1 rounded-full transition-all duration-300 relative ${language === 'de' ? 'text-white' : 'text-gray-500 hover:text-black dark:hover:text-green-400'}`}
+        className={`transition-colors ${language === 'de' ? activeClass : inactiveClass}`}
       >
-        {language === 'de' && (
-            <motion.div
-                layoutId="lang-highlight"
-                className="absolute inset-0 bg-ikb dark:bg-green-600 rounded-full"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-        )}
-        <span className="relative z-10">DE</span>
+        DE
       </button>
-
+      <span className={isOrganic ? "text-[#1A1A1A]/20" : "text-gray-300 dark:text-gray-600"}>/</span>
       <button
         onClick={() => setLanguage('en')}
-        className={`px-3 py-1 rounded-full transition-all duration-300 relative ${language === 'en' ? 'text-white' : 'text-gray-500 hover:text-black dark:hover:text-green-400'}`}
+        className={`transition-colors ${language === 'en' ? activeClass : inactiveClass}`}
       >
-        {language === 'en' && (
-            <motion.div
-                layoutId="lang-highlight"
-                className="absolute inset-0 bg-ikb dark:bg-green-600 rounded-full"
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
-        )}
-        <span className="relative z-10">EN</span>
+        EN
       </button>
     </div>
   );

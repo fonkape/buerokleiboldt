@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMode } from '@/context/ModeContext';
+import { useTheme } from '@/context/ThemeContext';
 
 // --- DEUTSCHER CONTENT ---
 const blogPostsDE = [
@@ -33,8 +33,8 @@ const blogPostsDE = [
           <strong>Analogie:</strong> Stellen Sie sich einen Getränkeautomaten vor. Sie werfen 2 Euro ein, drücken einen Knopf, und die Cola fällt heraus. Der Automat führt den Kaufvertrag aus, aber er ist nicht der Vertrag.
         </p>
         <ul className="list-disc pl-5 space-y-2 font-mono text-sm my-4 bg-gray-100 dark:bg-gray-800 p-4 rounded">
-            <li>Der Code: <code>if (payment_received) &#123; release_goods(); &#125;</code></li>
-            <li>Der Vertrag: Die rechtliche Einigung über Preis, Qualität, Gewährleistung, Haftung.</li>
+          <li>Der Code: <code>if (payment_received) &#123; release_goods(); &#125;</code></li>
+          <li>Der Vertrag: Die rechtliche Einigung über Preis, Qualität, Gewährleistung, Haftung.</li>
         </ul>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">Warum Juristen Smart Contracts fürchten</h3>
@@ -42,9 +42,9 @@ const blogPostsDE = [
           Vor Kurzem saß ich in einem Workshop mit der Rechtsabteilung eines produzierenden Mittelständlers. Das IT-Team hatte einen Smart Contract entwickelt, der Zahlungen automatisch freigibt. Die Reaktion der Juristen? Panik.
         </p>
         <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Widerruf:</strong> Ein Smart Contract lässt sich nicht einfach rückgängig machen.</li>
-            <li><strong>Defekte Ware:</strong> Wenn der Sensor &quot;Lieferung&quot; meldet, fließt das Geld – auch wenn die Ware Schrott ist.</li>
-            <li><strong>Haftung:</strong> Wer zahlt bei Bugs im Code?</li>
+          <li><strong>Widerruf:</strong> Ein Smart Contract lässt sich nicht einfach rückgängig machen.</li>
+          <li><strong>Defekte Ware:</strong> Wenn der Sensor &quot;Lieferung&quot; meldet, fließt das Geld – auch wenn die Ware Schrott ist.</li>
+          <li><strong>Haftung:</strong> Wer zahlt bei Bugs im Code?</li>
         </ul>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">Die Lösung: Hybrid Contracts</h3>
@@ -53,11 +53,11 @@ const blogPostsDE = [
         </p>
 
         <div className="bg-gray-50 dark:bg-slate-800 p-6 border-l-2 border-black dark:border-green-500 my-6">
-            <h4 className="font-bold mb-2">1. Legal Wrapper (Der Rahmen)</h4>
-            <p className="text-sm mb-4">Ein klassischer Vertrag regelt Haftung und Streitbeilegung. Er hat &quot;Vorrang&quot; vor dem Code.</p>
+          <h4 className="font-bold mb-2">1. Legal Wrapper (Der Rahmen)</h4>
+          <p className="text-sm mb-4">Ein klassischer Vertrag regelt Haftung und Streitbeilegung. Er hat &quot;Vorrang&quot; vor dem Code.</p>
 
-            <h4 className="font-bold mb-2">2. On-Chain Execution (Der Motor)</h4>
-            <p className="text-sm">Der Code automatisiert nur die Erfüllung (Zahlung, Freigabe) bei klaren Parametern.</p>
+          <h4 className="font-bold mb-2">2. On-Chain Execution (Der Motor)</h4>
+          <p className="text-sm">Der Code automatisiert nur die Erfüllung (Zahlung, Freigabe) bei klaren Parametern.</p>
         </div>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">Fazit: Code UND Gesetz</h3>
@@ -65,7 +65,7 @@ const blogPostsDE = [
           Smart Contracts sind keine Science-Fiction mehr. Aber die Wahrheit ist: Weder Ihre Juristen noch Ihre Entwickler liegen falsch. Sie sprechen nur verschiedene Sprachen. Hybrid Contracts sind die Übersetzung.
         </p>
         <p>
-           Wenn Ihre Rechtsabteilung und Ihre IT sich das nächste Mal streiten, setzen Sie sie an einen Tisch – mit jemandem, der beide Seiten versteht.
+          Wenn Ihre Rechtsabteilung und Ihre IT sich das nächste Mal streiten, setzen Sie sie an einen Tisch – mit jemandem, der beide Seiten versteht.
         </p>
       </div>
     )
@@ -102,8 +102,8 @@ const blogPostsEN = [
           <strong>Analogy:</strong> Imagine a vending machine. You insert 2 Euros, press a button, and the soda falls out. The machine executes the sales contract, but it is not the contract.
         </p>
         <ul className="list-disc pl-5 space-y-2 font-mono text-sm my-4 bg-gray-100 dark:bg-gray-800 p-4 rounded">
-            <li>The Code: <code>if (payment_received) &#123; release_goods(); &#125;</code></li>
-            <li>The Contract: The legal agreement on price, quality, warranty, liability.</li>
+          <li>The Code: <code>if (payment_received) &#123; release_goods(); &#125;</code></li>
+          <li>The Contract: The legal agreement on price, quality, warranty, liability.</li>
         </ul>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">Why Lawyers Fear Smart Contracts</h3>
@@ -111,9 +111,9 @@ const blogPostsEN = [
           Recently, I sat in a workshop with the legal department of a manufacturing SME. The IT team had developed a smart contract that automatically releases payments. The lawyers' reaction? Panic.
         </p>
         <ul className="list-disc pl-5 space-y-2">
-            <li><strong>Revocation:</strong> A smart contract cannot simply be undone.</li>
-            <li><strong>Defective Goods:</strong> If the sensor reports "delivery," the money flows – even if the goods are scrap.</li>
-            <li><strong>Liability:</strong> Who pays for bugs in the code?</li>
+          <li><strong>Revocation:</strong> A smart contract cannot simply be undone.</li>
+          <li><strong>Defective Goods:</strong> If the sensor reports "delivery," the money flows – even if the goods are scrap.</li>
+          <li><strong>Liability:</strong> Who pays for bugs in the code?</li>
         </ul>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">The Solution: Hybrid Contracts</h3>
@@ -122,11 +122,11 @@ const blogPostsEN = [
         </p>
 
         <div className="bg-gray-50 dark:bg-slate-800 p-6 border-l-2 border-black dark:border-green-500 my-6">
-            <h4 className="font-bold mb-2">1. Legal Wrapper (The Framework)</h4>
-            <p className="text-sm mb-4">A classic contract governs liability and dispute resolution. It takes "precedence" over the code.</p>
+          <h4 className="font-bold mb-2">1. Legal Wrapper (The Framework)</h4>
+          <p className="text-sm mb-4">A classic contract governs liability and dispute resolution. It takes "precedence" over the code.</p>
 
-            <h4 className="font-bold mb-2">2. On-Chain Execution (The Engine)</h4>
-            <p className="text-sm">The code automates fulfillment (payment, release) only under clear parameters.</p>
+          <h4 className="font-bold mb-2">2. On-Chain Execution (The Engine)</h4>
+          <p className="text-sm">The code automates fulfillment (payment, release) only under clear parameters.</p>
         </div>
 
         <h3 className="font-serif text-2xl font-bold mt-8 mb-4">Conclusion: Code AND Law</h3>
@@ -134,7 +134,7 @@ const blogPostsEN = [
           Smart contracts are no longer science fiction. But the truth is: Neither your lawyers nor your developers are wrong. They just speak different languages. Hybrid Contracts are the translation.
         </p>
         <p>
-           Next time your legal department and IT argue, put them at one table – with someone who understands both sides.
+          Next time your legal department and IT argue, put them at one table – with someone who understands both sides.
         </p>
       </div>
     )
@@ -144,7 +144,7 @@ const blogPostsEN = [
 
 export default function BlogSection() {
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
-  const { t, isCodeMode, language } = useMode(); // Zugriff auf Sprache und Wörterbuch
+  const { t, isCodeMode, language } = useTheme(); // Zugriff auf Sprache und Wörterbuch
 
   // Wähle das richtige Array basierend auf der Sprache
   const blogPosts = language === 'en' ? blogPostsEN : blogPostsDE;
@@ -159,8 +159,8 @@ export default function BlogSection() {
       document.documentElement.style.overflow = 'unset';
     }
     return () => {
-        document.body.style.overflow = 'unset';
-        document.documentElement.style.overflow = 'unset';
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     }
   }, [selectedPost]);
 
@@ -172,105 +172,105 @@ export default function BlogSection() {
 
         {/* HEADER */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b-2 border-black dark:border-green-500/30 pb-8">
-           <div>
-             <p className="font-mono text-xs uppercase tracking-[0.2em] mb-4 border-l-4 border-ikb dark:border-green-500 pl-4 transition-colors text-ikb dark:text-green-400">
-                {t.blog.subtitle}
-             </p>
-             <h2 className="font-serif dark:font-mono text-5xl italic dark:not-italic leading-tight text-black dark:text-gray-100">
-                {t.blog.title}
-             </h2>
-           </div>
-           <p className="font-mono text-sm text-gray-500 dark:text-gray-400 mt-6 md:mt-0 max-w-md text-right">
-              {t.blog.desc}
-           </p>
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] mb-4 border-l-4 border-ikb dark:border-green-500 pl-4 transition-colors text-ikb dark:text-green-400">
+              {t.blog.subtitle}
+            </p>
+            <h2 className="font-serif dark:font-mono text-5xl italic dark:not-italic leading-tight text-black dark:text-gray-100">
+              {t.blog.title}
+            </h2>
+          </div>
+          <p className="font-mono text-sm text-gray-500 dark:text-gray-400 mt-6 md:mt-0 max-w-md text-right">
+            {t.blog.desc}
+          </p>
         </div>
 
         {/* GRID */}
         <div className="grid md:grid-cols-2 gap-8">
-           {blogPosts.map((post) => (
-             <motion.article
-                key={post.id}
-                whileHover={{ y: -5 }}
-                className="group cursor-pointer bg-gray-50 dark:bg-slate-800 border-2 border-transparent hover:border-ikb dark:hover:border-green-500 transition-all duration-300 p-8"
-                onClick={() => setSelectedPost(post.id)}
-             >
-                <div className="flex justify-between items-center mb-6 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                    <span>{post.date}</span>
-                    <span className="text-ikb dark:text-green-400 group-hover:underline">{post.category}</span>
-                </div>
-                <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-4 text-black dark:text-white group-hover:text-ikb dark:group-hover:text-green-400 transition-colors">
-                    {post.title}
-                </h3>
-                <p className="font-mono text-sm leading-relaxed text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
-                    {post.excerpt}
-                </p>
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black dark:text-white">
-                    {t.blog.read} <i className="fas fa-arrow-right transform group-hover:translate-x-2 transition-transform"></i>
-                </div>
-             </motion.article>
-           ))}
+          {blogPosts.map((post) => (
+            <motion.article
+              key={post.id}
+              whileHover={{ y: -5 }}
+              className="group cursor-pointer bg-gray-50 dark:bg-slate-800 border-2 border-transparent hover:border-ikb dark:hover:border-green-500 transition-all duration-300 p-8"
+              onClick={() => setSelectedPost(post.id)}
+            >
+              <div className="flex justify-between items-center mb-6 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                <span>{post.date}</span>
+                <span className="text-ikb dark:text-green-400 group-hover:underline">{post.category}</span>
+              </div>
+              <h3 className="font-serif dark:font-mono text-3xl italic dark:not-italic mb-4 text-black dark:text-white group-hover:text-ikb dark:group-hover:text-green-400 transition-colors">
+                {post.title}
+              </h3>
+              <p className="font-mono text-sm leading-relaxed text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
+                {post.excerpt}
+              </p>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black dark:text-white">
+                {t.blog.read} <i className="fas fa-arrow-right transform group-hover:translate-x-2 transition-transform"></i>
+              </div>
+            </motion.article>
+          ))}
 
-           {/* Placeholder */}
-           <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 flex flex-col justify-center items-center text-center opacity-50">
-              <p className="font-mono text-xs uppercase mb-2 text-gray-500">Coming Next</p>
-              <h3 className="font-serif dark:font-mono text-xl text-gray-400">MiCA {language === 'de' ? 'für den Mittelstand' : 'for SMEs'}</h3>
-           </div>
+          {/* Placeholder */}
+          <div className="border-2 border-dashed border-gray-300 dark:border-gray-700 p-8 flex flex-col justify-center items-center text-center opacity-50">
+            <p className="font-mono text-xs uppercase mb-2 text-gray-500">Coming Next</p>
+            <h3 className="font-serif dark:font-mono text-xl text-gray-400">MiCA {language === 'de' ? 'für den Mittelstand' : 'for SMEs'}</h3>
+          </div>
         </div>
 
         {/* MODAL */}
         <AnimatePresence>
-            {selectedPost && activePost && (
-                <>
-                    <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        onClick={() => setSelectedPost(null)}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] cursor-pointer"
-                    />
+          {selectedPost && activePost && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setSelectedPost(null)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] cursor-pointer"
+              />
 
-                    <motion.div
-                        data-lenis-prevent
-                        initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
-                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-x-0 bottom-0 top-10 md:top-20 md:inset-x-auto md:right-0 md:w-[800px] bg-white dark:bg-slate-900 z-[70] overflow-y-auto border-l-2 border-black dark:border-green-500 shadow-2xl"
-                    >
-                        <button
-                            onClick={() => setSelectedPost(null)}
-                            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-slate-800 hover:bg-ikb dark:hover:bg-green-500 hover:text-white transition-colors z-50"
-                        >
-                            <i className="fas fa-times"></i>
-                        </button>
+              <motion.div
+                data-lenis-prevent
+                initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed inset-x-0 bottom-0 top-10 md:top-20 md:inset-x-auto md:right-0 md:w-[800px] bg-white dark:bg-slate-900 z-[70] overflow-y-auto border-l-2 border-black dark:border-green-500 shadow-2xl"
+              >
+                <button
+                  onClick={() => setSelectedPost(null)}
+                  className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-slate-800 hover:bg-ikb dark:hover:bg-green-500 hover:text-white transition-colors z-50"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
 
-                        <div className="p-8 md:p-16 max-w-3xl mx-auto">
-                            <div className="font-mono text-xs text-ikb dark:text-green-400 mb-4 uppercase tracking-widest flex justify-between">
-                                <span>{activePost.category} • {activePost.readTime} Read</span>
-                                <span>{activePost.date}</span>
-                            </div>
-                            <h1 className="font-serif dark:font-mono text-4xl md:text-5xl mb-8 leading-tight text-black dark:text-white">
-                                {activePost.title}
-                            </h1>
+                <div className="p-8 md:p-16 max-w-3xl mx-auto">
+                  <div className="font-mono text-xs text-ikb dark:text-green-400 mb-4 uppercase tracking-widest flex justify-between">
+                    <span>{activePost.category} • {activePost.readTime} Read</span>
+                    <span>{activePost.date}</span>
+                  </div>
+                  <h1 className="font-serif dark:font-mono text-4xl md:text-5xl mb-8 leading-tight text-black dark:text-white">
+                    {activePost.title}
+                  </h1>
 
-                            <div className="prose dark:prose-invert prose-lg font-serif dark:font-sans text-gray-800 dark:text-gray-300">
-                                {activePost.content}
-                            </div>
+                  <div className="prose dark:prose-invert prose-lg font-serif dark:font-sans text-gray-800 dark:text-gray-300">
+                    {activePost.content}
+                  </div>
 
-                            <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 flex items-center gap-4">
-                                <div className="w-12 h-12 bg-gray-200 dark:bg-slate-800 rounded-full overflow-hidden border border-black dark:border-green-500">
-                                    <img src="/me.jpg" alt="DK" className="w-full h-full object-cover grayscale" />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-sm text-black dark:text-white">Daniel Kleiboldt</p>
-                                    <p className="text-xs text-gray-500 uppercase tracking-wide">Legal Engineer</p>
-                                </div>
-                                <div className="ml-auto">
-                                    <a href="https://www.linkedin.com/in/daniel-kleiboldt-306a75123/" target="_blank" rel="noopener noreferrer" className="text-ikb dark:text-green-400 hover:underline text-sm font-mono flex items-center gap-2">
-                                        {language === 'de' ? 'Auf LinkedIn folgen' : 'Follow on LinkedIn'} <i className="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </>
-            )}
+                  <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gray-200 dark:bg-slate-800 rounded-full overflow-hidden border border-black dark:border-green-500">
+                      <img src="/me.jpg" alt="DK" className="w-full h-full object-cover grayscale" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm text-black dark:text-white">Daniel Kleiboldt</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">Legal Engineer</p>
+                    </div>
+                    <div className="ml-auto">
+                      <a href="https://www.linkedin.com/in/daniel-kleiboldt-306a75123/" target="_blank" rel="noopener noreferrer" className="text-ikb dark:text-green-400 hover:underline text-sm font-mono flex items-center gap-2">
+                        {language === 'de' ? 'Auf LinkedIn folgen' : 'Follow on LinkedIn'} <i className="fas fa-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
         </AnimatePresence>
 
       </div>
