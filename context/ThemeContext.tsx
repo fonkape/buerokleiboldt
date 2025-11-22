@@ -17,7 +17,7 @@ const translations = {
             blog: "Insights"
         },
         hero: {
-            role: "/// JURIST, LEGAL ENGINEER & SOLUTIONS ARCHITECT",
+            role: "// JURIST, LEGAL ENGINEER & SOLUTIONS ARCHITECT",
             titlePart1: "Ihr Unternehmen will",
             titlePart2: "nutzen?",
             subtitle: "Aber Legal, IT und Business sprechen nicht dieselbe Sprache. Ich übersetze.",
@@ -53,48 +53,84 @@ const translations = {
             arch: "Architect"
         },
         cases: {
-            title: "/// Echte Szenarien",
+            title: "// Use Cases",
             items: [
                 {
                     id: "01",
                     title: "Der Mittelständler & das KI-Tool",
-                    desc: "Mitarbeiter nutzten ChatGPT für Kundendaten. Lösung: Lokale LLM-Instanz (Llama) on-premise.",
-                    tags: ["AI", "Privacy", "Compliance"]
+                    desc: "Wie ein Hidden Champion seine Vertriebsprozesse mit AI beschleunigte – ohne Datenschutz-Suizid.",
+                    tags: ["AI", "Privacy", "Compliance"],
+                    fullStory: {
+                        problem: "Der Vertrieb wollte ChatGPT für Kunden-E-Mails nutzen. Die Rechtsabteilung legte ein Veto ein: 'Keine Kundendaten an US-Server'. Das Resultat: Schatten-IT und Wettbewerbsnachteil.",
+                        solution: "Implementierung einer lokalen Open-Source LLM-Instanz (Llama 3) auf eigenen Servern in Frankfurt. Fine-Tuning auf den spezifischen 'Tone of Voice' des Unternehmens.",
+                        result: "80% Zeitersparnis bei der Angebotserstellung. 0 Byte Daten verlassen das Unternehmen. Der Vertrieb ist glücklich, die Compliance ist sicher.",
+                        legal: "DSGVO-konform durch 'Privacy by Design'. Keine Auftragsverarbeitung in Drittstaaten (Schrems II sicher)."
+                    }
                 },
                 {
                     id: "02",
                     title: "Supply Chain auf der Blockchain",
-                    desc: "Logistik-Nachweise waren manipulierbar. Lösung: Permissioned Ledger (Hyperledger) Architektur.",
-                    tags: ["Blockchain", "Supply Chain", "Audit"]
+                    desc: "Lückenlose Nachweise für das Lieferkettengesetz (LkSG) – fälschungssicher und automatisiert.",
+                    tags: ["Blockchain", "Supply Chain", "Audit"],
+                    fullStory: {
+                        problem: "Das neue Lieferkettengesetz verlangt lückenlose Nachweise. Manuelle Dokumentation per E-Mail und Excel war fehleranfällig und kaum auditierbar. Haftungsrisiken für die Geschäftsführung.",
+                        solution: "Ein privates 'Permissioned Ledger' (Hyperledger), auf dem Lieferanten Zertifikate und Status-Updates kryptographisch signieren. Smart Contracts prüfen automatisch die Vollständigkeit.",
+                        result: "Audit-Kosten um 60% gesenkt. Nachweise sind 'in Echtzeit' verfügbar statt Wochen später. Volle Transparenz für Endkunden via QR-Code.",
+                        legal: "Rechtssichere Dokumentation gemäß LkSG. Unveränderbare Historie dient als Entlastungsbeweis im Haftungsfall."
+                    }
                 },
                 {
                     id: "03",
                     title: "Das Startup & die MiCA-Lizenz",
-                    desc: "Tokenisierte Assets ohne Banklizenz geplant. Lösung: Hybrid-Architektur & Whitelisting (BaFin-konform).",
-                    tags: ["FinTech", "Regulation", "MiCA"]
+                    desc: "Tokenisierte Assets rechtssicher anbieten – ohne eigene Banklizenz.",
+                    tags: ["FinTech", "Regulation", "MiCA"],
+                    fullStory: {
+                        problem: "Ein PropTech-Startup wollte Immobilien-Anteile tokenisieren. Die BaFin-Hürden für eine eigene Lizenz waren zu hoch (Kosten > 500k€, Dauer > 18 Monate).",
+                        solution: "Technische Integration eines 'Haftungsdachs' und Nutzung einer White-Label-Verwahrlösung. Der Token-Sale wurde technisch so strukturiert, dass er unter das eWpG fällt.",
+                        result: "Go-to-Market in 4 Monaten statt 2 Jahren. Initiale Regulierungskosten um 85% gesenkt. Volle Konformität mit der neuen EU-Verordnung MiCA.",
+                        legal: "Strukturierung als elektronisches Wertpapier (eWpG). Prospektbilligung durch die BaFin erfolgreich begleitet."
+                    }
                 },
                 {
                     id: "04",
-                    title: "Maschinenbau & Tokenisierung",
-                    desc: "Kapital in teuren Maschinen gebunden. Lösung: eWpG-konforme Smart Contracts (Pay-per-Use).",
-                    tags: ["Tokenization", "IoT", "Finance"]
+                    title: "Maschinenbau & Pay-per-Use",
+                    desc: "Vom Verkäufer zum Service-Anbieter: Wie IoT und Smart Contracts neue Erlösmodelle schaffen.",
+                    tags: ["Tokenization", "IoT", "Finance"],
+                    fullStory: {
+                        problem: "Kunden scheuten die hohen Investitionskosten (CAPEX) für neue Maschinen. Der Hersteller wollte aber kein Ausfallrisiko bei Ratenzahlung tragen.",
+                        solution: "Die Maschine wurde mit IoT-Sensoren und einer Wallet ausgestattet. Ein Smart Contract bucht pro gefertigtem Teil automatisch Cent-Beträge vom Wallet des Kunden ab. Bei Nichtzahlung stoppt die Maschine.",
+                        result: "Umsatzsteigerung durch neues 'Equipment-as-a-Service' Modell. Zahlungsrisiko technisch eliminiert. Liquidität für den Kunden geschont.",
+                        legal: "Rechtliche Einordnung als Mietkauf mit automatisierter Durchsetzung. AGB-rechtliche Absicherung der 'Kill-Switch'-Funktionalität."
+                    }
                 },
                 {
                     id: "05",
                     title: "Klinik & KI-Arztbriefe",
-                    desc: "Ärzte ertrinken in Bürokratie. Cloud-AI verboten. Lösung: Air-Gapped AI System für Datenschutz.",
-                    tags: ["Health", "AI", "GDPR"]
+                    desc: "Ärzte von Bürokratie befreien – mit einem KI-System, das Patientendaten respektiert.",
+                    tags: ["Health", "AI", "GDPR"],
+                    fullStory: {
+                        problem: "Ärzte verbrachten 3 Stunden täglich mit dem Schreiben von Arztbriefen. Cloud-Lösungen waren aufgrund sensibler Gesundheitsdaten (Art. 9 DSGVO) tabu.",
+                        solution: "Entwicklung eines 'Air-Gapped' KI-Systems, das lokal im Klinik-Netzwerk läuft. Das Modell extrahiert Daten aus der elektronischen Patientenakte und generiert Entwürfe.",
+                        result: "Dokumentationszeit halbiert. Mehr Zeit für Patienten. Hohe Akzeptanz beim Betriebsrat durch transparente Datenarchitektur.",
+                        legal: "Konformität mit Art. 9 DSGVO und ärztlicher Schweigepflicht. Datenschutz-Folgenabschätzung (DSFA) als Teil des Projekts geliefert."
+                    }
                 },
                 {
                     id: "06",
                     title: "Immobilien & Due Diligence",
-                    desc: "Prüfung von 5.000 Mietverträgen blockiert Verkauf. Lösung: Automatisierte Klausel-Extraktion & Risiko-Scoring.",
-                    tags: ["Real Estate", "NLP", "Automation"]
+                    desc: "5.000 Mietverträge in 4 Stunden prüfen: Wie NLP den Transaktionsprozess revolutioniert.",
+                    tags: ["Real Estate", "NLP", "Automation"],
+                    fullStory: {
+                        problem: "Ein Portfolio-Verkauf drohte zu scheitern, weil die manuelle Prüfung von tausenden Gewerbemietverträgen zu lange dauerte und Fehler enthielt.",
+                        solution: "Einsatz einer NLP-Pipeline, trainiert auf deutsches Mietrecht. Automatische Extraktion von 'Change of Control'-Klauseln und Wertsicherungsklauseln.",
+                        result: "Due Diligence in Rekordzeit abgeschlossen. Deal-Sicherheit durch 100% Prüfquote (statt Stichproben). Kosten < 10% der manuellen Prüfung.",
+                        legal: "Human-in-the-loop Validierung für kritische Treffer. Haftungsausschluss technisch und vertraglich sauber abgebildet."
+                    }
                 }
             ]
         },
         services: {
-            supertitle: "/// MEINE KERNDIENSTLEISTUNGEN",
+            supertitle: "// MEINE KERNDIENSTLEISTUNGEN",
             title: "Das Architekten-Toolkit.",
             items: [
                 {
@@ -118,7 +154,7 @@ const translations = {
             ]
         },
         profile: {
-            subtitle: "/// About Me",
+            subtitle: "// About Me",
             title1: "Kein Anwalt.",
             title2: "Kein reiner Coder.",
             title3: "Der Übersetzer.",
@@ -129,19 +165,19 @@ const translations = {
             title: "Tech Stack & Zertifizierungen",
             subtitle: "Meine Werkzeuge für robuste Legal Engineering Lösungen.",
             certs: [
-                { icon: "fa-certificate", title: "TÜV Rheinland", subtitle: "Smart Contract Auditor" },
-                { icon: "fa-university", title: "Legal Tech", subtitle: "LL.M. / Strategist" },
-                { icon: "fa-cube", title: "Blockchain", subtitle: "Solidity Developer" }
+                { icon: "fa-cube", title: "Blockchain Architect", subtitle: "Certified (2026 Goal)" },
+                { icon: "fa-python", title: "Python Associate", subtitle: "PCAP Certified (2025)" },
+                { icon: "fa-aws", title: "Cloud Practitioner", subtitle: "AWS Certified (2025)" }
             ]
         },
         blog: {
-            subtitle: "/// INSIGHTS",
+            subtitle: "// INSIGHTS",
             title: "Legal Tech Logbuch",
             desc: "Gedanken zu Smart Contracts, AI Regulation und der Zukunft des Rechts.",
             read: "Artikel lesen"
         },
         footer: {
-            subtitle: "/// Let's start",
+            subtitle: "// Let's start",
             title: "Genug Theorie.",
             button: "Feasibility Check anfragen",
             sending: "Wird gesendet...",
@@ -203,7 +239,7 @@ const translations = {
             challenge: "Challenge" // Added to satisfy type if needed, though not used in Organic
         },
         hero: {
-            role: "/// LEGAL ENGINEER",
+            role: "// LEGAL ENGINEER",
             titlePart1: "Law",
             titlePart2: "Code",
             subtitle: "The bridge between complex law and scalable code.",
@@ -241,16 +277,82 @@ const translations = {
         cases: {
             title: "Use Cases",
             items: [
-                { id: "01", title: "Automated NDA", desc: "Zero-touch workflow for standard agreements.", tags: ["Automation", "Contract"] },
-                { id: "02", title: "Tokenization Platform", desc: "Legally compliant asset tokenization.", tags: ["Web3", "Finance"] },
-                { id: "03", title: "AI Due Diligence", desc: "Custom LLM pipeline for contract review.", tags: ["AI", "NLP"] },
-                { id: "04", title: "GDPR Dashboard", desc: "Real-time compliance monitoring.", tags: ["Privacy", "Dashboard"] },
-                { id: "05", title: "DAO Governance", desc: "Legal wrapper for decentralized orgs.", tags: ["Web3", "Corporate"] },
-                { id: "06", title: "IP Licensing", desc: "Automated royalty distribution via smart contracts.", tags: ["IP", "Smart Contracts"] }
+                {
+                    id: "01",
+                    title: "Automated NDA",
+                    desc: "Accelerating sales cycles with AI – without committing privacy suicide.",
+                    tags: ["Automation", "Contract"],
+                    fullStory: {
+                        problem: "Sales teams waited 3 days for legal review of standard NDAs. Deal velocity slowed down, frustration grew.",
+                        solution: "Self-hosted LLM pipeline checking against a defined 'Playbook'. Redlines are generated automatically.",
+                        result: "80% faster turnaround. Legal only reviews deviations. Zero data leaves the EU.",
+                        legal: "GDPR compliant via local hosting. Consistent clause application reduces liability risk."
+                    }
+                },
+                {
+                    id: "02",
+                    title: "Tokenization Platform",
+                    desc: "Legally compliant asset tokenization for the German Mittelstand.",
+                    tags: ["Web3", "Finance"],
+                    fullStory: {
+                        problem: "SME assets (machinery, real estate) are illiquid. Bank loans are slow and restrictive.",
+                        solution: "Tokenization of assets via SPV structure. Issuance of digital securities under the eWpG.",
+                        result: "Immediate liquidity. Access to a broader investor base. Reduced administrative costs.",
+                        legal: "BaFin-compliant prospectus. Electronic securities registry integration."
+                    }
+                },
+                {
+                    id: "03",
+                    title: "AI Due Diligence",
+                    desc: "Reviewing 5,000 contracts in 4 hours: NLP for M&A.",
+                    tags: ["AI", "NLP"],
+                    fullStory: {
+                        problem: "M&A deal at risk due to slow manual review of thousands of lease agreements.",
+                        solution: "Custom NLP model trained on German contract law to extract specific risk clauses.",
+                        result: "Due diligence completed in record time. 100% coverage instead of random sampling.",
+                        legal: "Human-in-the-loop verification ensures accuracy. Audit trail for every extraction."
+                    }
+                },
+                {
+                    id: "04",
+                    title: "GDPR Dashboard",
+                    desc: "Turning 'Datenschutz' from a black box into a real-time cockpit.",
+                    tags: ["Privacy", "Dashboard"],
+                    fullStory: {
+                        problem: "Privacy compliance was opaque. Risk of fines (4% turnover) was abstract but real.",
+                        solution: "Real-time dashboard connecting to IT systems. Visualizes data flows and consent status.",
+                        result: "Audit-ready at any time. Reduced external DPO costs. Trust as a USP.",
+                        legal: "Automated Article 30 ROPA generation. Real-time breach detection."
+                    }
+                },
+                {
+                    id: "05",
+                    title: "DAO Governance",
+                    desc: "Corporate governance for the 21st century: Transparent & Automated.",
+                    tags: ["Web3", "Corporate"],
+                    fullStory: {
+                        problem: "Traditional governance is slow. Member participation in cooperatives is low.",
+                        solution: "Smart Contract based voting. Treasuries managed on-chain with multi-sig security.",
+                        result: "Transparent decision making. Automated execution of votes. Higher engagement.",
+                        legal: "Legal wrapper (e.V. or GmbH) ensures liability shield. 'Code is Law' within legal bounds."
+                    }
+                },
+                {
+                    id: "06",
+                    title: "IP Licensing",
+                    desc: "Automated royalty distribution via Smart Contracts.",
+                    tags: ["IP", "Smart Contracts"],
+                    fullStory: {
+                        problem: "Royalty calculations for patents/software are complex manual Excel nightmares.",
+                        solution: "Smart Legal Contracts automatically distribute revenue shares upon payment receipt.",
+                        result: "0% admin overhead. Instant payouts. Trust between parties.",
+                        legal: "Legally binding automated performance. Reduced dispute potential."
+                    }
+                }
             ]
         },
         services: {
-            supertitle: "/// CORE SERVICES",
+            supertitle: "// CORE SERVICES",
             title: "The Architect's Toolkit",
             items: [
                 {
@@ -280,7 +382,7 @@ const translations = {
             ]
         },
         profile: {
-            subtitle: "/// About Me",
+            subtitle: "// About Me",
             title1: "Not a lawyer.",
             title2: "Not just a coder.",
             title3: "The Translator.",
@@ -291,19 +393,19 @@ const translations = {
             title: "Tech Stack & Certifications",
             subtitle: "My tools for robust Legal Engineering solutions.",
             certs: [
-                { icon: "fa-certificate", title: "TÜV Rheinland", subtitle: "Smart Contract Auditor" },
-                { icon: "fa-university", title: "Legal Tech", subtitle: "LL.M. / Strategist" },
-                { icon: "fa-cube", title: "Blockchain", subtitle: "Solidity Developer" }
+                { icon: "fa-cube", title: "Blockchain Architect", subtitle: "Certified (2026 Goal)" },
+                { icon: "fa-python", title: "Python Associate", subtitle: "PCAP Certified (2025)" },
+                { icon: "fa-aws", title: "Cloud Practitioner", subtitle: "AWS Certified (2025)" }
             ]
         },
         blog: {
-            subtitle: "/// INSIGHTS",
+            subtitle: "// INSIGHTS",
             title: "Legal Tech Logbook",
             desc: "Thoughts on Smart Contracts, AI Regulation, and the future of law.",
             read: "Read Article"
         },
         footer: {
-            subtitle: "/// Let's start",
+            subtitle: "// Let's start",
             title: "Enough theory.",
             button: "Request Check",
             sending: "Sending...",

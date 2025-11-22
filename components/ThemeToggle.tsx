@@ -8,7 +8,6 @@ export default function ThemeToggle() {
 
     const themes = [
         { id: 'swiss', label: 'SWISS', icon: '■' },
-        { id: 'cyber', label: 'CYBER', icon: '⚡' },
         { id: 'organic', label: 'ORGANIC', icon: '●' }
     ];
 

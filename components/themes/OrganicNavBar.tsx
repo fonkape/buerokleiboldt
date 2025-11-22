@@ -19,7 +19,7 @@ export default function OrganicNavBar() {
 
                 {/* LOGO */}
                 <div className="flex items-center gap-3">
-                    <span className="font-mono font-bold text-xl tracking-widest text-[#002FA7]">
+                    <span className="font-mono font-bold text-xl tracking-wide text-[#002FA7]">
                         &#123; dk &#125;
                     </span>
                     <span className="hidden md:block font-sans text-sm font-medium tracking-wide text-[#1A1A1A]/80 border-l border-[#1A1A1A]/20 pl-3 ml-1">
